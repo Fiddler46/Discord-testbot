@@ -20,7 +20,6 @@ module.exports = {
                 message.author.id,
                 args.splice(1).join(" ")
               );
-
               standup
                 .save()
                 .then(() => message.channel.send("Updated Response :tada:"))
@@ -64,6 +63,7 @@ module.exports = {
                 message.author.id,
                 args.join(" ")
               );
+              console.log(standup.responses.get(message.author.id));
               standup
                 .save()
                 .then(() => message.channel.send("Updated Response :tada:"))
