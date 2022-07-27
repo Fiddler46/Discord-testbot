@@ -86,13 +86,19 @@ module.exports = {
                 idx = userscrum.indexOf(b, idx + 1);
               }
 
+              console.log(indices_blockers)
+              console.log(indices_enhancements)
+              console.log(indices_features)
+              
+
               // Finding features
               let features = []
               for(let i=0; i<indices_features.length; i++)
               {
                 let ijk = indices_features[i];
                 ijk+=2
-                while(userscrum[ijk]!='#' && userscrum[ijk]!='\n'){
+                console.log(userscrum[ijk]);
+                while(userscrum[ijk] != '#'){
                   features.push(userscrum[ijk]);
                   ijk++ ; 
                 }
