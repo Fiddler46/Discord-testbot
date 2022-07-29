@@ -139,7 +139,6 @@ module.exports = {
               if (standup.responses.has(message.author.id)) {
                 message.reply(
                   "Here is your response:\n" + standup.responses.get(message.author.id) + '\n\n' + project + '\n' + features + '\n' + blockers + '\n' + enhancements
-                    //standup.responses.get(message.author.id)
                 );
               } else {
                 message.reply(

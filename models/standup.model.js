@@ -8,6 +8,22 @@ const { Schema, model } = require("mongoose");
  * @property {[String]} members     array of userIds for the members of the standup
  * @property {Map}      responses   Map<UserId, String> of responses
  */
+
+ const reportSchema = new Schema({
+  features: {
+    type: Map,
+    of: String,
+  },
+  enhancements: {
+    type: Map,
+    of: String,
+  },
+  blockers: {
+    type: Map,
+    of: String,
+  },
+});
+
 const standupSchema = new Schema({
   _id: String,
   channelId: String,
@@ -16,7 +32,13 @@ const standupSchema = new Schema({
     type: Map,
     of: String,
   },
+  reporting: {
+    type: reportSchema,
+    required: true,
+  },
 });
+
+
 
 /**
  * Checks if all members have posted in the standup
