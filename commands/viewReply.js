@@ -56,15 +56,13 @@ module.exports = {
             } else {
               let [standup] = userStandupList;
               let userscrum = standup.responses.get(message.author.id)
-              console.log(userscrum, typeof(userscrum))
-              let f = '#f'
-              let e = '#e'
-              let b = '#b'
-              let p = '#p'
+
+              let [p,f,e,b] = ['#p','#f','#e','#b']
 
               let indices_features = []
               let indices_enhancements = []
               let indices_blockers = []
+              
               let index_project = userscrum.indexOf(p) ;
 
               let project = []
@@ -97,10 +95,6 @@ module.exports = {
                 indices_blockers.push(idx);
                 idx = userscrum.indexOf(b, idx + 1);
               }
-
-              console.log(indices_features)
-              console.log(indices_enhancements)
-              console.log(indices_blockers)
 
               // Finding enhancements
               let enhancements = []
