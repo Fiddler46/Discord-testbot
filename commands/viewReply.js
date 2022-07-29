@@ -76,31 +76,30 @@ module.exports = {
               project = project.join('')
 
               //Find all occurances for Features
-              let idx = userscrum.indexOf(f);
-              while (idx != -1) {
-                indices_features.push(idx);
-                idx = userscrum.indexOf(f, idx + 1);
+              let index = userscrum.indexOf(f);
+              while (index != -1) {
+                indices_features.push(index);
+                index = userscrum.indexOf(f, index + 1);
               }
 
               //Find all occurances for Enhancements
-              idx = userscrum.indexOf(e);
-              while (idx != -1) {
-                indices_enhancements.push(idx);
-                idx = userscrum.indexOf(e, idx + 1);
+              index = userscrum.indexOf(e);
+              while (index != -1) {
+                indices_enhancements.push(index);
+                index = userscrum.indexOf(e, index + 1);
               }
 
               //Find all occurances for Blockers
-              idx = userscrum.indexOf(b);
-              while (idx != -1) {
-                indices_blockers.push(idx);
-                idx = userscrum.indexOf(b, idx + 1);
+              index = userscrum.indexOf(b);
+              while (index != -1) {
+                indices_blockers.push(index);
+                index = userscrum.indexOf(b, index + 1);
               }
 
               // Finding enhancements
               let enhancements = []
-              for(let i=0; i<indices_enhancements.length; i++)
+              for(ijk of indices_enhancements)
               {
-                let ijk = indices_enhancements[i];
                 ijk+=2
                 while(ijk < userscrum.length && (userscrum[ijk]!='#' && userscrum[ijk]!='\n')){
                   enhancements.push(userscrum[ijk]);
@@ -112,9 +111,8 @@ module.exports = {
 
               // Finding blockers
               let blockers = []
-              for(let i=0; i<indices_blockers.length; i++)
+              for(ijk of indices_blockers)
               {
-                let ijk = indices_blockers[i];
                 ijk+=2
                 while(ijk < userscrum.length && (userscrum[ijk]!='#' && userscrum[ijk]!='\n')){
                   blockers.push(userscrum[ijk]);
@@ -126,9 +124,8 @@ module.exports = {
 
               // Finding features
               let features = []
-              for(let i=0; i<indices_features.length; i++)
+              for(ijk of indices_features)
               {
-                let ijk = indices_features[i];
                 ijk+=2
                 while(ijk < userscrum.length && (userscrum[ijk] != '#' && userscrum[ijk]!='\n')){
                   features.push(userscrum[ijk]);
