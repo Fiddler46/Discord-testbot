@@ -60,10 +60,22 @@ module.exports = {
               let f = '#f'
               let e = '#e'
               let b = '#b'
+              let p = '#p'
 
               let indices_features = []
               let indices_enhancements = []
               let indices_blockers = []
+              let index_project = userscrum.indexOf(p) ;
+
+              let project = []
+              index_project += 2
+              while(userscrum[index_project] != '#' && userscrum[index_project] != '\n')
+              {
+                project.push(userscrum[index_project]) ;
+                index_project++ ;
+              }
+              project.unshift("Project Name ==> ")
+              project = project.join('')
 
               //Find all occurances for Features
               let idx = userscrum.indexOf(f);
@@ -86,25 +98,9 @@ module.exports = {
                 idx = userscrum.indexOf(b, idx + 1);
               }
 
-              console.log(indices_blockers)
-              console.log(indices_enhancements)
               console.log(indices_features)
-              
-
-              // Finding features
-              let features = []
-              for(let i=0; i<indices_features.length; i++)
-              {
-                let ijk = indices_features[i];
-                ijk+=2
-                console.log(userscrum[ijk]);
-                while(userscrum[ijk] != '#'){
-                  features.push(userscrum[ijk]);
-                  ijk++ ; 
-                }
-              }
-              features.unshift("Features ==> ")
-              features = features.join('')
+              console.log(indices_enhancements)
+              console.log(indices_blockers)
 
               // Finding enhancements
               let enhancements = []
@@ -112,7 +108,7 @@ module.exports = {
               {
                 let ijk = indices_enhancements[i];
                 ijk+=2
-                while(userscrum[ijk]!='#' && userscrum[ijk]!='\n'){
+                while(ijk < userscrum.length && (userscrum[ijk]!='#' && userscrum[ijk]!='\n')){
                   enhancements.push(userscrum[ijk]);
                   ijk++ ; 
                 }
@@ -133,10 +129,25 @@ module.exports = {
               }
               blockers.unshift("Blockers ==> ")
               blockers = blockers.join('')
+
+              // Finding features
+              let features = []
+              for(let i=0; i<indices_features.length; i++)
+              {
+                let ijk = indices_features[i];
+                ijk+=2
+                while(userscrum[ijk] != '#' && userscrum[ijk]!='\n'){
+                  features.push(userscrum[ijk]);
+                  //console.log(userscrum[ijk])
+                  ijk++ ; 
+                }
+              }
+              features.unshift("Features ==> ")
+              features = features.join('')
               
               if (standup.responses.has(message.author.id)) {
                 message.reply(
-                  "Here is your response:\n" + features + '\n' + enhancements + '\n' + blockers
+                  "Here is your response:\n" + project + '\n' + features + '\n' + blockers + '\n' + enhancements
                     //standup.responses.get(message.author.id)
                 );
               } else {
