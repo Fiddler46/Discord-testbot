@@ -122,7 +122,7 @@ module.exports = {
               {
                 let ijk = indices_blockers[i];
                 ijk+=2
-                while(userscrum[ijk]!='#' && userscrum[ijk]!='\n'){
+                while(ijk < userscrum.length && (userscrum[ijk]!='#' && userscrum[ijk]!='\n')){
                   blockers.push(userscrum[ijk]);
                   ijk++ ; 
                 }
@@ -136,7 +136,7 @@ module.exports = {
               {
                 let ijk = indices_features[i];
                 ijk+=2
-                while(userscrum[ijk] != '#' && userscrum[ijk]!='\n'){
+                while(ijk < userscrum.length && (userscrum[ijk] != '#' && userscrum[ijk]!='\n')){
                   features.push(userscrum[ijk]);
                   //console.log(userscrum[ijk])
                   ijk++ ; 
