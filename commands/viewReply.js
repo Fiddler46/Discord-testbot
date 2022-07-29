@@ -136,6 +136,7 @@ module.exports = {
               features.unshift("Features ==> ")
               features = features.join('')
               
+              
               if (standup.responses.has(message.author.id)) {
                 message.reply(
                   "Here is your response:\n" + standup.responses.get(message.author.id) + '\n\n' + project + '\n' + features + '\n' + blockers + '\n' + enhancements
