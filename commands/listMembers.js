@@ -1,4 +1,4 @@
-const standupModel = require("../models/standup.model");
+const channelModel = require("../models/channel.model");
 
 /**
  * !list - list all participating members
@@ -8,7 +8,7 @@ module.exports = {
   guildOnly: true,
   description: "List of all members participating in the standup",
   execute(message, args) {
-    standupModel.findById(message.guild.id).then(standup => {
+    channelModel.findOne({channelId: message.channel.id}).then(standup => {
       let res = "Here are all members participating in the standup:\n";
       if(!standup.members.length) {
         message.reply("there does not seem to be any members in the standup. Try `!am @<user> @<optional_user> ...` to add member(s)")

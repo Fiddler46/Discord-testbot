@@ -9,34 +9,16 @@ const { Schema, model } = require("mongoose");
  * @property {Map}      responses   Map<UserId, String> of responses
  */
 
- const reportSchema = new Schema({
-  features: {
-    type: Map,
-    of: String,
-  },
-  enhancements: {
-    type: Map,
-    of: String,
-  },
-  blockers: {
-    type: Map,
-    of: String,
-  },
-});
-
 const standupSchema = new Schema({
-  _id: String,
-  channelId: String,
-  members: [String],
-  responses: {
-    type: Map,
-    of: String,
+  channel: {
+    type: Schema.Types.ObjectId,
+    ref: 'Channel'
   },
-  reporting: {
-    type: reportSchema,
-    required: false,
-  },
-});
+  member: String,
+  features: [String],
+  enhancements: [String],
+  blockers: [String],
+}, {timestamp: true})
 
 
 

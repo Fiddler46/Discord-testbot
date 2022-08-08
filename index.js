@@ -5,7 +5,7 @@ const fs = require("fs");
 const mongoose = require("mongoose");
 const { Client, MessageEmbed, Collection } = require("discord.js");
 const schedule = require("node-schedule");
-const standupModel = require("./models/standup.model");
+const channelModel = require("./models/channel.model");
 
 const PREFIX = "!";
 
@@ -100,11 +100,10 @@ bot.on("guildCreate", async (guild) => {
   });
 
   // creates the database model
-  const newStandup = new standupModel({
-    _id: guild.id,
+  const newStandup = new channelModel({
+    serverId: guild.id,
     channelId: channel.id,
-    members: [],
-    responses: new Map(),
+    members: []
   });
 
   newStandup
@@ -117,8 +116,8 @@ bot.on("guildCreate", async (guild) => {
 
 // delete the mongodb entry
 bot.on("guildDelete", (guild) => {
-  standupModel
-    .findByIdAndDelete(guild.id)
+  channelModel
+    .findOneAndDelete({serverId: guild.id})
     .then(() => console.log("Peace!"))
     .catch((err) => console.error(err));
 });
@@ -130,7 +129,7 @@ let cron = schedule.scheduleJob(
   { hour: 19, minute: 45, dayOfWeek: new schedule.Range(1, 5) },
   (time) => {
     console.log(`[${time}] - CRON JOB START`);
-    standupModel
+    channelModel
       .find()
       .then((standups) => {
         standups.forEach((standup) => {

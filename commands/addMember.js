@@ -1,4 +1,4 @@
-const standupModel = require("../models/standup.model");
+const channelModel = require("../models/channel.model");
 /**
  * !am - Adds a new member to the standup
  * NOTE: server admin can only preform this operation
@@ -14,9 +14,9 @@ module.exports = {
         "Ruh Roh! You need to mention **_at least_** one member as argument!"
       );
 
-    standupModel
-      .findById(message.guild.id)
-      .then((standup) => {
+    channelModel
+      .findOne({channelId: message.channel.id})
+      .then((channel) => {
         args.forEach((mention) => {
           if (mention.startsWith("<@") && mention.endsWith(">")) {
             mention = mention.slice(2, -1);
@@ -25,12 +25,12 @@ module.exports = {
 
             const member = message.guild.members.cache.get(mention);
 
-            if (member && standup.members.indexOf(member.id) == -1)
-              standup.members.push(member.id);
+            if (member && channel.members.indexOf(member.id) == -1)
+              channel.members.push(member.id);
           }
         });
 
-        standup
+        channel
           .save()
           .then(() => message.channel.send("Members updated :tada:"))
           .catch((err) => {
