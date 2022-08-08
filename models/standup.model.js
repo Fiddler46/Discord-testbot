@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 /**
- * Schema for standup
+ * Schema for report
  *
  * @property {String}   _id         id of the guild
  * @property {String}   channelId   id of the text-channel 'daily-standups'
@@ -9,36 +9,15 @@ const { Schema, model } = require("mongoose");
  * @property {Map}      responses   Map<UserId, String> of responses
  */
 
- const reportSchema = new Schema({
-  features: {
-    type: Map,
-    of: String,
-  },
-  enhancements: {
-    type: Map,
-    of: String,
-  },
-  blockers: {
-    type: Map,
-    of: String,
-  },
-});
-
 const standupSchema = new Schema({
-  _id: String,
-  channelId: String,
-  members: [String],
-  responses: {
-    type: Map,
-    of: String,
-  },
-  reporting: {
-    type: reportSchema,
-    required: true,
-  },
+  member: { type: Schema.ObjectId, ref: 'Members', required: true },
+  reportTime: Date,
+  project: { type: Schema.ObjectId, ref: 'Members', required: true },
+  scrum: String,
+  features: [String],
+  enhancements: [String],
+  blockers: [String],
 });
-
-
 
 /**
  * Checks if all members have posted in the standup
