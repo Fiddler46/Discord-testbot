@@ -1,7 +1,8 @@
 const { Schema, model } = require("mongoose");
 
 const projectSchema = new Schema({
-    Projects: [String]
+    p_name: String,
+    active: Boolean
   });
 
-module.exports = mongoose.model('Projects', projectSchema);
+module.exports = model('Projects', projectSchema);
