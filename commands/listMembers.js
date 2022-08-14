@@ -1,19 +1,21 @@
-const channelModel = require("../models/channel.model");
+const projectModel = require("../models/projects.model");
 
-/**
- * !list - list all participating members
- */
 module.exports = {
   name: "list",
   guildOnly: true,
   description: "List of all members participating in the standup",
   execute(message, args) {
-    channelModel.findOne({channelId: message.channel.id}).then(standup => {
+    //console.log(projectModel.find(message.channel.id))
+    let channel = message.guild.channels.cache.get(message.channel.id)
+    //console.log(channel)
+    //console.log(projectModel.find(message.channel.id))
+    projectModel.find({projectId: message.channel.id}).then(() => {
       let res = "Here are all members participating in the standup:\n";
-      if(!standup.members.length) {
+      console.log(channel.members.length, " --> channel name")
+      if(!channel.members.length) {
         message.reply("there does not seem to be any members in the standup. Try `!am @<user> @<optional_user> ...` to add member(s)")
       } else {
-        standup.members.forEach(member => {
+        channel.members.forEach(member => {
           res += `<@${member}>\t`;
         });
         message.channel.send(res);

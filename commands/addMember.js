@@ -1,4 +1,5 @@
-const channelModel = require("../models/channel.model");
+const serverModel = require("../models/servers.model");
+const projectModel = require("../models/projects.model");
 /**
  * !am - Adds a new member to the standup
  * NOTE: server admin can only preform this operation
@@ -13,28 +14,44 @@ module.exports = {
       return message.channel.send(
         "Ruh Roh! You need to mention **_at least_** one member as argument!"
       );
+    console.log("channelname", message.channel);
+    serverModel
+      .findOne({ severId: message.guild.id })
+      .then((server) => {
+        projectModel
+          .findOneAndCreate(
+            { projectId: message.channel.id },
+            {
+              serverId: server._id,
+              projectId: message.channel.id,
+              projectName: message.channel.name,
+            }
+          )
+          .then((channel) => {
+            args.forEach((mention) => {
+              if (mention.startsWith("<@") && mention.endsWith(">")) {
+                mention = mention.slice(2, -1);
 
-    channelModel
-      .findOne({channelId: message.channel.id})
-      .then((channel) => {
-        args.forEach((mention) => {
-          if (mention.startsWith("<@") && mention.endsWith(">")) {
-            mention = mention.slice(2, -1);
+                if (mention.startsWith("!")) mention = mention.slice(1);
+                const member = message.guild.members.cache.get(mention);
 
-            if (mention.startsWith("!")) mention = mention.slice(1);
-
-            const member = message.guild.members.cache.get(mention);
-
-            if (member && channel.members.indexOf(member.id) == -1)
-              channel.members.push(member.id);
-          }
-        });
-
-        channel
-          .save()
-          .then(() => message.channel.send("Members updated :tada:"))
+                if (member && channel.members.indexOf(member.id) == -1)
+                  channel.members.push(member.id);
+              }
+            });
+            console.log(channel);
+            channel
+              .save()
+              .then(() => message.channel.send("Members updated :tada:"))
+              .catch((err) => {
+                console.err(err);
+                message.channel.send(
+                  "Oh no :scream:! An error occured somewhere in the matrix!"
+                );
+              });
+          })
           .catch((err) => {
-            console.err(err);
+            console.error(err);
             message.channel.send(
               "Oh no :scream:! An error occured somewhere in the matrix!"
             );

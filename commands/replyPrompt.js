@@ -1,4 +1,4 @@
-const channelModel = require("../models/channel.model");
+const projectModel = require("../models/projects.model");
 const standupModel = require("../models/standup.model");
 
 module.exports = {
@@ -12,8 +12,8 @@ module.exports = {
           "Ruh Roh! You must provide a response as a message. No one likes a :ghost: as a team member :exclamation: :anger:"
         );
       if (args[0].startsWith("@")) {
-        channelModel
-          .findOne({ serverId: args[0].slice(1) })
+        projectModel
+          .findOne({ projectId: args[0].slice(1) })
           .then((channel) => {
             if (channel && channel.members.indexOf(message.author.id) !== -1) {
               let userscrum = args.splice(1).join(" ")
@@ -135,7 +135,7 @@ module.exports = {
             );
           });
       } else {
-        channelModel
+        projectModel
           .find({ members: message.author.id })
           .then((channels) => {
             if (!channels.length) {

@@ -5,7 +5,7 @@ const fs = require("fs");
 const mongoose = require("mongoose");
 const { Client, MessageEmbed, Collection } = require("discord.js");
 const schedule = require("node-schedule");
-const channelModel = require("./models/channel.model");
+const serverModel = require("./models/servers.model");
 
 const PREFIX = "!";
 
@@ -93,17 +93,18 @@ bot.on("message", async (message) => {
 });
 
 bot.on("guildCreate", async (guild) => {
+  console.log('guild', guild)
   // creates the text channel
   const channel = await guild.channels.create("daily-scrums", {
     type: "text",
     topic: "Scrum Standup Meeting Channel",
   });
+  console.log('channel', channel)
 
   // creates the database model
-  const newStandup = new channelModel({
+  const newStandup = new serverModel({
     serverId: guild.id,
-    channelId: channel.id,
-    members: []
+    standupChannelId: channel.id
   });
 
   newStandup
@@ -116,7 +117,7 @@ bot.on("guildCreate", async (guild) => {
 
 // delete the mongodb entry
 bot.on("guildDelete", (guild) => {
-  channelModel
+  serverModel
     .findOneAndDelete({serverId: guild.id})
     .then(() => console.log("Peace!"))
     .catch((err) => console.error(err));
@@ -129,7 +130,7 @@ let cron = schedule.scheduleJob(
   { hour: 19, minute: 45, dayOfWeek: new schedule.Range(1, 5) },
   (time) => {
     console.log(`[${time}] - CRON JOB START`);
-    channelModel
+    projectModel
       .find()
       .then((standups) => {
         standups.forEach((standup) => {
@@ -151,7 +152,7 @@ let cron = schedule.scheduleJob(
           if (!missingMembers.length) missingString += ":man_shrugging:";
           else missingMembers.forEach((id) => (missingString += `<@${id}> `));
           bot.channels.cache
-            .get(standup.channelId)
+            .get(standup.projectId)
             .send(
               new MessageEmbed(dailyStandupSummary)
                 .setDescription(missingString)
