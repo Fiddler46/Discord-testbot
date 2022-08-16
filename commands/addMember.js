@@ -1,4 +1,5 @@
 const memberModel = require("../models/member.model");
+
 /**
  * !am - Adds a new member to the standup
  * NOTE: server admin can only preform this operation
@@ -18,14 +19,19 @@ module.exports = {
       // message.channel.name
     const newMember = new memberModel({m_id:message.author.id, projects: [message.channel.name]})
     const projectMember = new memberModel({ projects: [message.channel.name] })
-    
-    memberModel.findById(message.author.id).then(member=>{
+
+    memberModel.exists({m_id: message.author.id}).then(member=>{
       if(!member){
         newMember.save((err)=>{
-          if(err) throw new Error("The member is NOT saved!")
+          if(err) return console.error(err + "\nThe member is NOT saved!");
+          console.log("Document inserted succussfully!");
+          return message.channel.send(
+            "New member added!"
+          );
         })
       }
       else {
+        console.log(member.projects);
         if(member.projects.includes(message.channel.name) == true) {
           return message.channel.send(
             "This user is already part of this project, please add a different user."
@@ -33,8 +39,11 @@ module.exports = {
         }
         else {
           projectMember.save((err) => {
-            if (err)
-              throw new Error("Project was NOT saved!")
+            if (err) return console.error(err + "\nThe member is NOT saved!");
+            console.log("New project added");
+            return message.channel.send(
+              "Updated with a new project!"
+            );
           })
         } 
       }
