@@ -19,8 +19,9 @@ module.exports = {
       // message.channel.name
     const newMember = new memberModel({m_id:message.author.id, projects: [message.channel.name]})
     const projectMember = new memberModel({ projects: [message.channel.name] })
+    const mentionedUserID = message.mentions.users.first().id;
 
-    memberModel.exists({m_id: message.author.id}).then(member=>{
+    memberModel.find({m_id: mentionedUserID}).then(member=>{
       if(!member){
         newMember.save((err)=>{
           if(err) return console.error(err + "\nThe member is NOT saved!");
@@ -31,7 +32,9 @@ module.exports = {
         })
       }
       else {
-        console.log(member.projects);
+        console.log(member);
+        console.log(typeof mentionedUserID);
+        // console.log(member.projects);
         if(member.projects.includes(message.channel.name) == true) {
           return message.channel.send(
             "This user is already part of this project, please add a different user."
