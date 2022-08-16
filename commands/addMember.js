@@ -15,42 +15,67 @@ module.exports = {
         "Ruh Roh! You need to mention **_at least_** one member as argument!"
       );
 
-      // console.log(message.author.id)
-      // message.channel.name
-    const newMember = new memberModel({m_id:message.author.id, projects: [message.channel.name]})
-    const projectMember = new memberModel({ projects: [message.channel.name] })
-    const mentionedUserID = message.mentions.users.first().id;
+    const mentionedUserID = message.mentions.users.keys().next().value;
+    const newMember = new memberModel({m_id: mentionedUserID, projects: [message.channel.name]})
+    // const projectMember = new memberModel({ projects: [message.channel.name] })
+  
+ 
+    memberModel.findOne({m_id: mentionedUserID}).then((err, member)=>{
+      if(err) console.error(err + "\nThe member is NOT found!");
 
-    memberModel.find({m_id: mentionedUserID}).then(member=>{
-      if(!member){
+      console.log("This is the member object: ",member);
+
+      if(!member) {
         newMember.save((err)=>{
-          if(err) return console.error(err + "\nThe member is NOT saved!");
-          console.log("Document inserted succussfully!");
-          return message.channel.send(
-            "New member added!"
-          );
-        })
-      }
+            if(err) console.error(err + "\nThe member is NOT saved!");
+
+            console.log("Document inserted succussfully!");
+            return message.channel.send(
+              "New member added!"
+            );
+          })
+        } 
       else {
-        console.log(member);
-        console.log(typeof mentionedUserID);
-        // console.log(member.projects);
-        if(member.projects.includes(message.channel.name) == true) {
+      if(member.projects.includes(message.channel.name) == true) {
           return message.channel.send(
             "This user is already part of this project, please add a different user."
           )
         }
-        else {
-          projectMember.save((err) => {
-            if (err) return console.error(err + "\nThe member is NOT saved!");
-            console.log("New project added");
-            return message.channel.send(
-              "Updated with a new project!"
-            );
-          })
+      else {
+        const memberWithNewAddedProject = {...newMember, projects: [...projects, message.channel.name]}
+        memberWithNewAddedProject.findOneandUpdate({m_id: mentionedUserID}, (err, updatedWithProject)=>{
+          if(err) console.err("The member if NOT found!");
+
+        })
+          // projectMember.save((err) => {
+          //   if (err) return console.error(err + "\nThe member is NOT saved!");
+          //   console.log("New project added");
+          //   return message.channel.send(
+          //     "Updated with a new project!"
+          //   );
+          // })
         } 
       }
     })
+
+
+        // console.log(member);
+        // newMember.save((err)=>{
+        //   if(err) return console.error(err + "\nThe member is NOT saved!");
+        //   console.log("Document inserted succussfully!");
+        //   return message.channel.send(
+        //     "New member added!"
+        //   );
+        // })
+  
+      // else {
+      //   console.log(typeof member)
+      //   console.log(member)
+      //   console.log(typeof mentionedUserID);
+      //   // console.log(member.projects);
+        
+      // }
+
 
 
 
