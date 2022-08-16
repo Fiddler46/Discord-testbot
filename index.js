@@ -92,36 +92,36 @@ bot.on("message", async (message) => {
   }
 });
 
-bot.on("guildCreate", async (guild) => {
-  console.log('guild', guild)
-  // creates the text channel
-  const channel = await guild.channels.create("daily-scrums", {
-    type: "text",
-    topic: "Scrum Standup Meeting Channel",
-  });
-  console.log('channel', channel)
+// bot.on("guildCreate", async (guild) => {
+//   console.log('guild', guild)
+//   // creates the text channel
+//   const channel = await guild.channels.create("daily-scrums", {
+//     type: "text",
+//     topic: "Scrum Standup Meeting Channel",
+//   });
+//   console.log('channel', channel)
 
-  // creates the database model
-  const newStandup = new serverModel({
-    serverId: guild.id,
-    standupChannelId: channel.id
-  });
+//   // creates the database model
+//   const newStandup = new serverModel({
+//     serverId: guild.id,
+//     standupChannelId: channel.id
+//   });
 
-  newStandup
-    .save()
-    .then(() => console.log("Howdy!"))
-    .catch((err) => console.error(err));
+//   newStandup
+//     .save()
+//     .then(() => console.log("Howdy!"))
+//     .catch((err) => console.error(err));
 
-  await channel.send(standupIntroMessage);
-});
+//   await channel.send(standupIntroMessage);
+// });
 
-// delete the mongodb entry
-bot.on("guildDelete", (guild) => {
-  serverModel
-    .findOneAndDelete({serverId: guild.id})
-    .then(() => console.log("Peace!"))
-    .catch((err) => console.error(err));
-});
+// // delete the mongodb entry
+// bot.on("guildDelete", (guild) => {
+//   serverModel
+//     .findOneAndDelete({serverId: guild.id})
+//     .then(() => console.log("Peace!"))
+//     .catch((err) => console.error(err));
+// });
 
 /**
  * Cron Job: 10:00:00 AM EST - Go through each standup and output the responses to the channel

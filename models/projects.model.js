@@ -1,10 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const projectSchema = new Schema({
-    serverId:  {
-      type: Schema.Types.ObjectId,
-      ref: 'Server'
-    },
+    serverId: String,
     projectId: String,
     projectName: String,
     members: [String]
@@ -14,10 +11,9 @@ projectSchema.statics.findOneAndCreate = async function findOneAndCreate(conditi
   const self = this;
   const result = await self.findOne(condition);
   if (result) {
-    result
+    return result
   } else {
-    self.create(doc)
-    return await self.save();
+    return await self.create(doc)
   }
 }
 

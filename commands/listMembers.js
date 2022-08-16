@@ -11,7 +11,6 @@ module.exports = {
     //console.log(projectModel.find(message.channel.id))
     projectModel.find({projectId: message.channel.id}).then(() => {
       let res = "Here are all members participating in the standup:\n";
-      console.log(channel.members.length, " --> channel name")
       if(!channel.members.length) {
         message.reply("there does not seem to be any members in the standup. Try `!am @<user> @<optional_user> ...` to add member(s)")
       } else {
