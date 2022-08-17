@@ -5,14 +5,13 @@
 
 #### *Disclaimer:* 
 
-This bot is not meant to replace your daily standups outright. It is more of a helper for your meetings. Instead of spending time going around asking the same questions everyday, time can be reserved for more important non-repetitive discussion and help.
+This bot is meant to help with your daily standups & keep a track of tasks accomplished. The bot could be triggered using commands which can be used to update the bot with the scrum(s) for that particular day. The scrums of every team member are stored in a database.
 
-### Initial Setup 
+### Initial Setup [required only to run the server]
 
-[Click Here](https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&scope=bot&permissions=355408) to add the bot to your server. You'll need to fill in `YOUR_CLIENT_ID` with your bots client id.
+[Click Here](https://discord.com/oauth2/authorize?client_id=BOTS_CLIENT_ID&scope=bot&permissions=355408) to add the bot to the discord server. 
 > Note that the above requires you to have the **Manage Server** permission in this server  
 
-The bot will then create an entry in the `MongoDB` database for the server, create the text channel `#daily-standups` and send an introduction.
 
 ### Commands
 > The prefix for this bot is `!`
@@ -32,17 +31,15 @@ The bot will then create an entry in the `MongoDB` database for the server, crea
 ### Usage
 > Standup time is set to `10:30:00 PM EST` every weekday
 
-Anytime before the standup time, added members must DM the bot with the `reply` followed by their message. The bot will then upload this response to the database.    
-Come standup time, the bot will create an Embed with all collected member responses *and* will include a `Hooligans` section with mentions of members who did not participate.  
-This message will be posted to `#daily-standups`.
+Anytime before the standup time, added members must trigger the bot with the `reply` followed by their message in the projects channel. The bot will then upload this response to the database.    
+
 
 After the message has been posted, the bot will delete all member responses, thus members will have to DM for the next standup.
 
-#### Made with
+#### Backend made with
 
 - `Discord.js` and `node-schedule` for cron jobs
 - `MongoDB` with `mongoose`
-- `Heroku` for hosting
 - :heart:
 
 
@@ -50,17 +47,17 @@ After the message has been posted, the bot will delete all member responses, thu
 <br />
 
 <h5 align="center">
-  <img src="docs/screenshots/standup-bot-1.png" />
+  <img src="screenshots/sscrum-bot-1.png" />
 </h5>
 <h5 align="center"> 
 
- *Text channel creation and initial message on join (1920x1080)*  
+ *Bot commands list*  
 
 </h5>
 <br />
 
 <h5 align="center">
-  <img src="docs/screenshots/standup-bot-2.png" />
+  <img src="screenshots/sscrum-bot-2.png" />
 </h5>
 <h5 align="center"> 
 
@@ -70,7 +67,7 @@ After the message has been posted, the bot will delete all member responses, thu
 <br />
 
 <h5 align="center">
-  <img src="docs/screenshots/standup-bot-3.png" />
+  <img src="screenshots/sscrum-bot-3.png" />
 </h5>
 <h5 align="center"> 
 

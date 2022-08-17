@@ -22,7 +22,7 @@ const standupIntroMessage = new MessageEmbed()
     },
     {
       name: "How does this work?",
-      value: `Anytime before the standup time \`10:30 AM EST\`, members would private DM me with the command \`${PREFIX}show\`, I will present the standup prompt and they will type their response using the command \`${PREFIX}reply @<optional_serverId> [your-message-here]\`. I will then save their response in my *secret special chamber of data*, and during the designated standup time, I would present everyone's answer to \`#daily-scrums\`.`,
+      value: `Anytime before the standup time \`10:30 AM EST\`, members should trigger me with the necessary command \`${PREFIX}show\`, I will present the standup prompt and they will type their response using the command \`${PREFIX}reply @<optional_serverId> [your-message-here]\`. I will then save their response in my *secret special chamber of data*, and during the designated standup time, I would present everyone's answer to \`#daily-scrums\`.`,
     },
     {
       name: "Getting started",

@@ -1,22 +1,12 @@
 {
-  "name": "standup-bot",
+  "name": "scrum-bot-discord",
   "version": "1.0.0",
-  "description": "Discord bot for scrum daily standups",
+  "description": "Discord bot for handling team scrums",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/navn-r/standup-bot.git"
-  },
-  "author": "Navinn Ravindaran",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/navn-r/standup-bot/issues"
-  },
-  "homepage": "https://github.com/navn-r/standup-bot#readme",
   "dependencies": {
     "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",

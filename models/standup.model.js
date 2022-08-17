@@ -1,14 +1,8 @@
 const { Schema, model } = require("mongoose");
 
 const standupSchema = new Schema({
-  channel: {
-    type: Schema.Types.ObjectId,
-    ref: 'Project'
-  },
-  member: {
-    type: Schema.Types.ObjectId,
-    ref: 'Member'
-  },
+  channel: String,
+  member: String,
   scrum: String,
   features: [String],
   enhancements: [String],

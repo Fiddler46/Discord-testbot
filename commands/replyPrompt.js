@@ -15,7 +15,7 @@ module.exports = {
         projectModel
           .findOne({ projectId: args[0].slice(1) })
           .then((channel) => {
-            if (channel && channel.members.indexOf(message.author.id) !== -1) {
+            if(message.author.id !== -1) {
               let userscrum = args.splice(1).join(" ")
               console.log(userscrum)
 
@@ -107,7 +107,7 @@ module.exports = {
               console.log(features,'features') ;
 
               const standup = new standupModel({
-                channel: channel._id,
+                channel: "Test Project Channel",
                 member: message.author.id,
                 features: features.split(' \n'),
                 enhancements: enhancements.split(' \n'),
@@ -147,12 +147,13 @@ module.exports = {
                 "Ruh Roh! Looks like you're a member in multiple standup servers!\nTry `!reply @<serverId> [your-message-here]` if you would like to reply to a *specific* standup server.\n**_Crunchy Hint:_** To get the serverId for *any* server, right-click the server icon and press `Copy ID`.\nNote that you may need Developer options turned on. But like, what kinda developer uses a standup bot **_AND DOESN'T TURN ON DEVELOPPER SETTINGS_** :man_facepalming:"
               );
             } else {
+
               const standup = new standupModel({
-                channel: channels[0]._id,
+                channel: channels._id,
                 member: message.author.id,
-                features: "a6",
-                enhancements: "I'm getting a sinking feeling!",
-                blockers: "Leonardo di Carpaccio",
+                features: features.split(' \n'),
+                enhancements: enhancements.split(' \n'),
+                blockers: blockers.split(' \n'),
               });
               standup
                 .save()
