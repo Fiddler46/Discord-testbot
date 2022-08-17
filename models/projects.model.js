@@ -4,7 +4,8 @@ const projectSchema = new Schema({
     serverId: String,
     projectId: String,
     projectName: String,
-    members: [String]
+    members: [String],
+    active: Boolean
   }, {timestamp: true})
 
 projectSchema.statics.findOneAndCreate = async function findOneAndCreate(condition, doc) {
@@ -16,20 +17,5 @@ projectSchema.statics.findOneAndCreate = async function findOneAndCreate(conditi
     return await self.create(doc)
   }
 }
-
-/**
- * Checks if all members have posted in the standup
- * @param {function} callback
- */
- projectSchema.methods.checkFulfilled = function (callback) {
-  const missing = [];
-
-  this.members.forEach((member) => {
-    if (!this.responses.get(member)) {
-      missing.push(member);
-    }
-  });
-  callback(missing);
-};
 
 module.exports = model("Project", projectSchema);
