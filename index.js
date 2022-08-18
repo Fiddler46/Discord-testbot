@@ -117,11 +117,21 @@ bot.on("guildCreate", async (guild) => {
   });
 
   // creates the database model
+  // const newStandup = new standupModel({
+  //   _id: guild.id,
+  //   channelId: channel.id,
+  //   members: [],
+  //   responses: new Map(),
+  // });
+
   const newStandup = new standupModel({
-    _id: guild.id,
-    channelId: channel.id,
-    members: [],
-    responses: new Map(),
+    member: '',
+    reportTime: '',
+    project: '',
+    scrum: '',
+    features: [],
+    enhancements: [],
+    blockers: [],
   });
 
   newStandup
