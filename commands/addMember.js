@@ -1,9 +1,7 @@
 const projectModel = require("../models/projects.model");
 const memberModel = require("../models/members.model");
-/**
- * !am - Adds a new member to the standup
- * NOTE: server admin can only preform this operation
- */
+
+
 module.exports = {
   name: "am",
   usage: "@<user> @<optional_user> ...",

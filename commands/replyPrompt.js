@@ -6,7 +6,7 @@ module.exports = {
   usage: "@<optional_serverId> [your-message-here]",
   description: "Reply to standup prompt",
   execute(message, args) {
-    if (message.channel.type === "dm") {
+    if (message.channel.type === "text") {
       if (!args.length || (args.length == 1 && args[0].startsWith("@")))
         return message.reply(
           "Ruh Roh! You must provide a response as a message. No one likes a :ghost: as a team member :exclamation: :anger:"
