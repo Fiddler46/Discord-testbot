@@ -18,4 +18,4 @@ projectSchema.statics.findOneAndCreate = async function findOneAndCreate(conditi
   }
 }
 
-module.exports = model("Project", projectSchema);
+module.exports = model("Projects", projectSchema);
