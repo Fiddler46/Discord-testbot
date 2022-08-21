@@ -12,14 +12,13 @@ const { Schema, model } = require("mongoose");
 // module.exports = model("Standup", standupSchema);
 
 const standupSchema = new Schema({
-  member: { type: Schema.ObjectId, ref: 'Members', required: true },
+  member: { type: Schema.ObjectId, ref: "Members", required: false },
   reportTime: Date,
-  project: { type: Schema.ObjectId, ref: 'Members', required: true },
+  project: { type: Schema.ObjectId, ref: "Members", required: false },
   scrum: String,
   features: [String],
   enhancements: [String],
   blockers: [String],
 });
-
 
 module.exports = model("Standup", standupSchema);
