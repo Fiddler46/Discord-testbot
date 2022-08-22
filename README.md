@@ -47,7 +47,7 @@ After the message has been posted, the bot will delete all member responses, thu
 <br />
 
 <h5 align="center">
-  <img src="screenshots/sscrum-bot-1.png" />
+  <img src="screenshots/scrum-bot-1.png" />
 </h5>
 <h5 align="center"> 
 
@@ -57,7 +57,7 @@ After the message has been posted, the bot will delete all member responses, thu
 <br />
 
 <h5 align="center">
-  <img src="screenshots/sscrum-bot-2.png" />
+  <img src="screenshots/scrum-bot-2.png" />
 </h5>
 <h5 align="center"> 
 
@@ -67,7 +67,7 @@ After the message has been posted, the bot will delete all member responses, thu
 <br />
 
 <h5 align="center">
-  <img src="screenshots/sscrum-bot-3.png" />
+  <img src="screenshots/scrum-bot-3.png" />
 </h5>
 <h5 align="center"> 
 
