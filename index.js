@@ -12,21 +12,10 @@ const PREFIX = "!";
 const standupIntroMessage = new MessageEmbed()
   .setColor("#ff9900")
   .setTitle("Daily Standup")
-  .setDescription(
-    "This is the newly generated text channel used for daily standups! :tada:"
-  )
   .addFields(
     {
       name: "Introduction",
       value: `Hi! I'm Nighthack's Scrumbot. I will be facilitating your daily standups from now on.\nTo view all available commands, try \`${PREFIX}help\`.`,
-    },
-    {
-      name: "How does this work?",
-      value: `Anytime before the standup time \`10:30 AM EST\`, members should trigger me with the necessary command \`${PREFIX}show\`, I will present the standup prompt and they will type their response using the command \`${PREFIX}reply @<optional_serverId> [your-message-here]\`. I will then save their response in my *secret special chamber of data*, and during the designated standup time, I would present everyone's answer to \`#daily-scrums\`.`,
-    },
-    {
-      name: "Getting started",
-      value: `*Currently*, there are no members in the standup! To add a member try \`${PREFIX}am <User>\`.`,
     }
   )
   .setTimestamp();
@@ -50,8 +39,6 @@ for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
   bot.commands.set(command.name, command);
 }
-
-console.log(bot.commands)
 
 // mongodb setup with mongoose
 mongoose
@@ -91,37 +78,6 @@ bot.on("message", async (message) => {
     message.channel.send(`Error 8008135: Something went wrong!`);
   }
 });
-
-// bot.on("guildCreate", async (guild) => {
-//   console.log('guild', guild)
-//   // creates the text channel
-//   const channel = await guild.channels.create("daily-scrums", {
-//     type: "text",
-//     topic: "Scrum Standup Meeting Channel",
-//   });
-//   console.log('channel', channel)
-
-//   // creates the database model
-//   const newStandup = new serverModel({
-//     serverId: guild.id,
-//     standupChannelId: channel.id
-//   });
-
-//   newStandup
-//     .save()
-//     .then(() => console.log("Howdy!"))
-//     .catch((err) => console.error(err));
-
-//   await channel.send(standupIntroMessage);
-// });
-
-// // delete the mongodb entry
-// bot.on("guildDelete", (guild) => {
-//   serverModel
-//     .findOneAndDelete({serverId: guild.id})
-//     .then(() => console.log("Peace!"))
-//     .catch((err) => console.error(err));
-// });
 
 /**
  * Cron Job: 10:00:00 AM EST - Go through each standup and output the responses to the channel
