@@ -1,8 +1,5 @@
 const standupModel = require("../models/standup.model");
-/**
- * !rm - removes member from standup
- * NOTE: server admin can only preform this operation
- */
+
 module.exports = {
   name: "rm",
   usage: "@<user> @<optional_user> ...",
