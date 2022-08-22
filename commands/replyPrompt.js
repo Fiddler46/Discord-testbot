@@ -113,6 +113,8 @@ module.exports = {
               console.log(features, "features");
 
               const standup = new standupModel({
+                member: message.author.username,
+                project: message.channel.name,
                 scrum: userscrum,
                 features: features.split(" \n"),
                 enhancements: enhancements.split(" \n"),
