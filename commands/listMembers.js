@@ -5,10 +5,7 @@ module.exports = {
   guildOnly: true,
   description: "List of all members participating in the standup",
   execute(message, args) {
-    //console.log(projectModel.find(message.channel.id))
     let channel = message.guild.channels.cache.get(message.channel.id)
-    //console.log(channel)
-    //console.log(projectModel.find(message.channel.id))
     projectModel.find({projectId: message.channel.id}).then(() => {
       let res = "Here are all members participating in the standup:\n";
       if(!channel.members.length) {
