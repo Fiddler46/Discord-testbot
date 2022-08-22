@@ -6,4 +6,4 @@ const serverSchema = new Schema({
   }, {timestamp: true})
 
 
-module.exports = model("Server", serverSchema);
+module.exports = model("Servers", serverSchema);
