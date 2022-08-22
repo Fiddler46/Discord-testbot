@@ -13,7 +13,7 @@ const { Schema, model } = require("mongoose");
 
 const standupSchema = new Schema({
   member: String,
-  reportTime: {type: Date, default: () => Date.now()},
+  reportTime: {type: Date, default: () => {date = Date.now(); date.toLocaleString();}},
   project: String,
   scrum: String,
   features: [String],
