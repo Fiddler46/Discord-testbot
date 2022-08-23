@@ -1,8 +1,5 @@
 const PREFIX = "!";
 
-/**
- * !help command - Lists out all the available commands
- */
 module.exports = {
   name: "help",
   description: "Shows all commands",
