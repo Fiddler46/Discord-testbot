@@ -39,7 +39,7 @@ for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
   bot.commands.set(command.name, command);
 }
-console.log(bot.commands)
+//console.log(bot.commands) ==> For checking list of commands on console
 
 // mongodb setup with mongoose
 mongoose

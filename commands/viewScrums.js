@@ -4,15 +4,14 @@ module.exports = {
   name: "scrums",
   description: "View all standup responses",
   execute(message, args) {
-    console.log("yo");
     if (message.channel.type === "text") {
-        console.log(message.channel.name, typeof(message.channel.name))
+        console.log(message.channel.name, standupModel.find({project: message.channel.name}))
         standupModel
-          .find({'project': message.channel.name})
+          .find({project: message.channel.name})
           .then((standup) => {
-              message.channel.send(
-                console.log(standup)
-              );   
+              console.log(typeof(standup))
+              message.channel.send('hello');   
+              message.channel.send(standup)
           })
           .catch((err) => {
             console.error(err);
