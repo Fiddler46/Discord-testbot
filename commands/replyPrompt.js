@@ -1,4 +1,3 @@
-const projectModel = require("../models/projects.model");
 const standupModel = require("../models/standup.model");
 
 module.exports = {
