@@ -1,12 +1,8 @@
 const PREFIX = "!";
 
-/**
- * !help command - Lists out all the available commands
- */
 module.exports = {
   name: "help",
   description: "Shows all commands",
-  usage: "[command name]",
   execute(message, args) {
     const data = [];
     const { commands } = message.client;

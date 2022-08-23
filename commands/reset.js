@@ -1,10 +1,5 @@
 const standupModel = require("../models/standup.model");
 
-/**
- * !reset - resets the standup (wipes from database, and re-inits)
- * NOTE: - server admin can only preform this operation
- *       - command only works if text channel has been created already
- */
 module.exports = {
   name: "reset",
   guildOnly: true,
