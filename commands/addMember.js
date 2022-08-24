@@ -16,7 +16,8 @@ module.exports = {
       );
 
     const mentionedUserID = message.mentions.users.keys().next().value;
-    const newMember = new memberModel({m_id: mentionedUserID, projects: [message.channel.name]})
+    const mentionedUserName = message.mentions.users.first().username;
+    const newMember = new memberModel({m_id: mentionedUserID, m_name: mentionedUserName, projects: [message.channel.name]})
   
  
     const member = await memberModel.findOne({m_id: mentionedUserID});
