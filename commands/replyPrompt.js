@@ -1,5 +1,6 @@
-const projectModel = require("../models/projects.model");
+const weeklyReportModel = require("../models/weeklyreports.model");
 const standupModel = require("../models/standup.model");
+const weeklyreportsModel = require("../models/weeklyreports.model");
 
 module.exports = {
   name: "reply",
@@ -111,6 +112,27 @@ module.exports = {
               }
               features = features.join("");
               console.log(features, "features");
+
+              const weeklyReports = new weeklyreportsModel({
+                m_id: message.author.id,
+                m_name: message.author.username,
+                project: message.channel.name,
+                content: {
+                  timeOfCreation: "WeeklyDate",
+                  features: features.split(" \n"),
+                  enhancements: enhancements.split(" \n"),
+                  blockers: blockers.split(" \n")
+                }
+              })
+              weeklyReports
+                .save()
+                .then(() => message.channel.send("Updated in Weekly Reports as well :tada:"))
+                .catch((err) => {
+                  console.error(err);
+                  message.channel.send(
+                    "Oh no :scream:! An error occured somewhere in the matrix!"
+                  );
+                });
 
               const standup = new standupModel({
                 member: message.author.username,
