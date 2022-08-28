@@ -118,7 +118,7 @@ module.exports = {
                 m_name: message.author.username,
                 project: message.channel.name,
                 content: {
-                  timeOfCreation: "WeeklyDate",
+                  timeOfCreation: new Date().toISOString()                  ,
                   features: features.split(" \n"),
                   enhancements: enhancements.split(" \n"),
                   blockers: blockers.split(" \n")
