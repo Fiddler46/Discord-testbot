@@ -33,7 +33,7 @@ module.exports = {
                 project.push(userscrum[index_project]);
                 index_project++;
               }
-              project.unshift("Project Name ==> ");
+              //project.unshift("Project Name ==> ");
               project = project.join("");
 
               //Find all occurances for Features
@@ -118,7 +118,8 @@ module.exports = {
                 m_name: message.author.username,
                 project: message.channel.name,
                 content: {
-                  timeOfCreation: new Date().toISOString(),
+                  //timeOfCreation: new Date().toISOString(),
+                  timeOfCreation: new Date().toDateString(),
                   features: features.split(" \n"),
                   enhancements: enhancements.split(" \n"),
                   blockers: blockers.split(" \n")
