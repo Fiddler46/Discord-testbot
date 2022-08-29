@@ -1,5 +1,4 @@
 const projectModel = require("../models/projects.model");
-const memberModel = require("../models/members.model");
 
 module.exports = {
   name: "am",

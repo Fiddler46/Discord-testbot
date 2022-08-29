@@ -6,7 +6,7 @@ module.exports = {
   name: "list",
   guildOnly: true,
   description: "List of all members participating in the standup",
-  execute(message, args) {
+  execute(message, args){
       let res = "Here are all members participating in the standup:\n";
       
       if(!channel.members.length) {
@@ -17,11 +17,5 @@ module.exports = {
         });
         message.channel.send(res);
       }
-    }).catch(err => {
-      console.error(err);
-      message.channel.send(
-        "Oh no :scream:! An error occured somewhere in the matrix!"
-      );
-    })
-  },
-};
+    }
+  }
