@@ -1,7 +1,7 @@
 module.exports = {
   name: "show",
   description: "Shows standup prompt",
-  async execute(message, args) {
+  async execute(message) {
     message.channel.send(`
 Here is the daily standup prompt:
 \`\`\`

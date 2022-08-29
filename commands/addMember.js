@@ -1,7 +1,6 @@
 const projectModel = require("../models/projects.model");
 const memberModel = require("../models/members.model");
 
-
 module.exports = {
   name: "am",
   usage: "@<user> @<optional_user> ...",
@@ -34,7 +33,7 @@ module.exports = {
             if (member && channel.members.indexOf(member.id) == -1)
               channel.members.push(member.id);
           }
-          console.log("member", channel.members)
+          console.log("member", channel.members);
         });
         channel
           .save()
