@@ -5,10 +5,11 @@ const weeklyReportSchema = new Schema({
   m_name: String,
   project: String,
   content: {
-      timeOfCreation: String,
+      timeOfCreation: Date,
       features: [String],
       enhancements: [String],
-      blockers: [String]
+      blockers: [String],
+      others: [String]
   },
 });
   weeklyReportSchema.statics.findOneAndCreate = async function findOneAndCreate(condition, doc) {

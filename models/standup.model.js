@@ -19,6 +19,7 @@ const standupSchema = new Schema({
   features: [String],
   enhancements: [String],
   blockers: [String],
-});
+  others: [String]
+}, {timestamp: true});
 
 module.exports = model("Standups", standupSchema);

@@ -1,10 +1,9 @@
-const weeklyReportModel = require("../models/weeklyreports.model");
 const standupModel = require("../models/standup.model");
 const weeklyreportsModel = require("../models/weeklyreports.model");
 
 module.exports = {
   name: "reply",
-  usage: "@<optional_serverId> [your-message-here]",
+  usage: "[your-message-here]",
   description: "Reply to standup prompt",
   execute(message, args) {
     if (message.channel.type === "text") {
@@ -14,27 +13,13 @@ module.exports = {
         );
             if (message.author.id !== -1) {
               let userscrum = args.splice(1).join(" ");
-              console.log(userscrum);
 
-              let [p, f, e, b] = ["#p", "#f", "#e", "#b", "#o"];
+              let [f, e, b, o] = ["#f", "#e", "#b", "#o"];
 
               let indices_features = [];
               let indices_enhancements = [];
               let indices_blockers = [];
-
-              let index_project = userscrum.indexOf(p);
-
-              let project = [];
-              index_project += 2;
-              while (
-                userscrum[index_project] != "#" &&
-                userscrum[index_project] != "\n"
-              ) {
-                project.push(userscrum[index_project]);
-                index_project++;
-              }
-              //project.unshift("Project Name ==> ");
-              project = project.join("");
+              let indices_others = [];
 
               //Find all occurances for Features
               let idx = userscrum.indexOf(f);
@@ -57,6 +42,31 @@ module.exports = {
                 idx = userscrum.indexOf(b, idx + 1);
               }
 
+              //Find all occurances for Others
+              idx = userscrum.indexOf(o);
+              while (idx != -1) {
+                indices_others.push(idx);
+                idx = userscrum.indexOf(o, idx + 1);
+              }
+
+              // Finding others
+              let others = [];
+              for (let i = 0; i < indices_others.length; i++) {
+                others.push(i + 1, ". ");
+                let ijk = indices_others[i];
+                ijk += 2;
+                while (
+                  ijk < userscrum.length &&
+                  userscrum[ijk] != "#" &&
+                  userscrum[ijk] != "\n"
+                ) {
+                  others.push(userscrum[ijk]);
+                  ijk++;
+                }
+                if(i < indices_others.length -1 ) others.push("\n")
+              }
+              others = others.join("");
+
               // Finding enhancements
               let enhancements = [];
               for (let i = 0; i < indices_enhancements.length; i++) {
@@ -71,7 +81,7 @@ module.exports = {
                   enhancements.push(userscrum[ijk]);
                   ijk++;
                 }
-                enhancements.push(" \n");
+                if(i < indices_enhancements.length -1 ) enhancements.push("\n")
               }
               enhancements = enhancements.join("");
 
@@ -89,7 +99,7 @@ module.exports = {
                   blockers.push(userscrum[ijk]);
                   ijk++;
                 }
-                blockers.push(" \n");
+                if(i < indices_blockers.length -1 ) blockers.push("\n")
               }
               blockers = blockers.join("");
 
@@ -108,21 +118,22 @@ module.exports = {
                   //console.log(userscrum[ijk])
                   ijk++;
                 }
-                features.push(" \n");
+                if(i < indices_features.length -1 ) features.push("\n")
               }
               features = features.join("");
-              console.log(features, "features");
 
               const weeklyReports = new weeklyreportsModel({
                 m_id: message.author.id,
                 m_name: message.author.username,
                 project: message.channel.name,
                 content: {
-                  //timeOfCreation: new Date().toISOString(),
-                  timeOfCreation: new Date().toDateString(),
-                  features: features.split(" \n"),
-                  enhancements: enhancements.split(" \n"),
-                  blockers: blockers.split(" \n")
+                  timeOfCreation: new Date().toISOString(),
+                  //timeOfCreation: new Date().toDateString(),
+                  //timeofCreation: new Date().toUTCString(),
+                  others: others.split("\n"),
+                  features: features.split("\n"),
+                  enhancements: enhancements.split("\n"),
+                  blockers: blockers.split("\n")
                 }
               })
               weeklyReports
@@ -139,9 +150,10 @@ module.exports = {
                 member: message.author.username,
                 project: message.channel.name,
                 scrum: userscrum,
-                features: features.split(" \n"),
-                enhancements: enhancements.split(" \n"),
-                blockers: blockers.split(" \n"),
+                features: features.split("\n"),
+                enhancements: enhancements.split("\n"),
+                blockers: blockers.split("\n"),
+                others: others.split('\n')
               });
               standup
                 .save()
