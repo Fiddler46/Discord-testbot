@@ -112,6 +112,7 @@ module.exports = {
               }
               features = features.join("");
               console.log(features, "features");
+              
               const d = new Date()
 
               const newStandup = new standupModel({
