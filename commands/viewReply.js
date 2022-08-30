@@ -61,7 +61,7 @@ module.exports = {
 
               let indices_features = []
               let indices_enhancements = []
-              let indices_blockers = []
+              let indices_bugs = []
               
               let index_project = userscrum.indexOf(p) ;
 
@@ -89,10 +89,10 @@ module.exports = {
                 idx = userscrum.indexOf(e, idx + 1);
               }
 
-              //Find all occurances for Blockers
+              //Find all occurances for bugs
               idx = userscrum.indexOf(b);
               while (idx != -1) {
-                indices_blockers.push(idx);
+                indices_bugs.push(idx);
                 idx = userscrum.indexOf(b, idx + 1);
               }
 
@@ -112,21 +112,21 @@ module.exports = {
               enhancements.unshift("Enhancements ==> ")
               enhancements = enhancements.join('')
 
-              // Finding blockers
-              let blockers = []
-              for(let i=0; i<indices_blockers.length; i++)
+              // Finding bugs
+              let bugs = []
+              for(let i=0; i<indices_bugs.length; i++)
               {
-                blockers.push(i+1, '. ')
-                let ijk = indices_blockers[i];
+                bugs.push(i+1, '. ')
+                let ijk = indices_bugs[i];
                 ijk+=2
                 while(ijk < userscrum.length && (userscrum[ijk]!='#' && userscrum[ijk]!='\n')){
-                  blockers.push(userscrum[ijk]);
+                  bugs.push(userscrum[ijk]);
                   ijk++ ; 
                 }
-                blockers.push(' ');
+                bugs.push(' ');
               }
-              blockers.unshift("Blockers ==> ")
-              blockers = blockers.join('')
+              bugs.unshift("bugs ==> ")
+              bugs = bugs.join('')
 
               // Finding features
               let features = []
@@ -147,7 +147,7 @@ module.exports = {
               
               if (standup.responses.has(message.author.id)) {
                 message.reply(
-                  "Here is your response:\n" + standup.responses.get(message.author.id) + '\n\n' + project + '\n' + features + '\n' + blockers + '\n' + enhancements
+                  "Here is your response:\n" + standup.responses.get(message.author.id) + '\n\n' + project + '\n' + features + '\n' + bugs + '\n' + enhancements
                     //standup.responses.get(message.author.id)
                 );
               } else {

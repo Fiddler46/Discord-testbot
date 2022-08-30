@@ -1,11 +1,13 @@
 const standupModel = require("../models/standup.model");
 const weeklyreportsModel = require("../models/weeklyreports.model");
+const endOfDay = require('date-fns/endOfDay');
+const startOfDay = require('date-fns/startOfDay');
 
 module.exports = {
   name: "reply",
   usage: "[your-message-here]",
   description: "Reply to standup prompt",
-  execute(message, args) {
+  async execute(message, args) {
     if (message.channel.type === "text") {
       if (!args.length)
         return message.reply(
@@ -18,7 +20,7 @@ module.exports = {
 
               let indices_features = [];
               let indices_enhancements = [];
-              let indices_blockers = [];
+              let indices_bugs = [];
               let indices_others = [];
 
               //Find all occurances for Features
@@ -35,10 +37,10 @@ module.exports = {
                 idx = userscrum.indexOf(e, idx + 1);
               }
 
-              //Find all occurances for Blockers
+              //Find all occurances for bugs
               idx = userscrum.indexOf(b);
               while (idx != -1) {
-                indices_blockers.push(idx);
+                indices_bugs.push(idx);
                 idx = userscrum.indexOf(b, idx + 1);
               }
 
@@ -85,23 +87,23 @@ module.exports = {
               }
               enhancements = enhancements.join("");
 
-              // Finding blockers
-              let blockers = [];
-              for (let i = 0; i < indices_blockers.length; i++) {
-                blockers.push(i + 1, ". ");
-                let ijk = indices_blockers[i];
+              // Finding bugs
+              let bugs = [];
+              for (let i = 0; i < indices_bugs.length; i++) {
+                bugs.push(i + 1, ". ");
+                let ijk = indices_bugs[i];
                 ijk += 2;
                 while (
                   ijk < userscrum.length &&
                   userscrum[ijk] != "#" &&
                   userscrum[ijk] != "\n"
                 ) {
-                  blockers.push(userscrum[ijk]);
+                  bugs.push(userscrum[ijk]);
                   ijk++;
                 }
-                if(i < indices_blockers.length -1 ) blockers.push("\n")
+                if(i < indices_bugs.length -1 ) bugs.push("\n")
               }
-              blockers = blockers.join("");
+              bugs = bugs.join("");
 
               // Finding features
               let features = [];
@@ -122,7 +124,9 @@ module.exports = {
               }
               features = features.join("");
 
-              const weeklyReports = new weeklyreportsModel({
+              const d = new Date()
+
+              const newweeklyReports = new weeklyreportsModel({
                 m_id: message.author.id,
                 m_name: message.author.username,
                 project: message.channel.name,
@@ -133,37 +137,67 @@ module.exports = {
                   others: others.split("\n"),
                   features: features.split("\n"),
                   enhancements: enhancements.split("\n"),
-                  blockers: blockers.split("\n")
+                  bugs: bugs.split("\n")
                 }
               })
-              weeklyReports
-                .save()
-                .then(() => message.channel.send("Updated in Weekly Reports as well :tada:"))
-                .catch((err) => {
-                  console.error(err);
-                  message.channel.send(
-                    "Oh no :scream:! An error occured somewhere in the matrix!"
-                  );
-                });
 
-              const standup = new standupModel({
+              // const weeklyReports = await standupModel.findOne({
+              //   m_id: message.author.id, 
+              //   project: message.channel.name, 
+              //   reportTime: {
+              //     $gte: startOfDay(new Date()),
+              //     $lte: endOfDay(new Date())
+              //   } 
+              // });
+
+              const newStandup = new standupModel({
+                m_id: message.author.id,
                 member: message.author.username,
+                reportTime: d,
                 project: message.channel.name,
                 scrum: userscrum,
                 features: features.split("\n"),
                 enhancements: enhancements.split("\n"),
-                blockers: blockers.split("\n"),
-                others: others.split('\n')
+                bugs: bugs.split("\n"),
+                others: others.split("\n")
               });
-              standup
-                .save()
-                .then(() => message.channel.send("Updated Response :tada:"))
-                .catch((err) => {
-                  console.error(err);
-                  message.channel.send(
-                    "Oh no :scream:! An error occured somewhere in the matrix!"
-                  );
-                });
+
+              const standup = await standupModel.findOne({
+                m_id: message.author.id, 
+                project: message.channel.name, 
+                reportTime: {
+                 $gte: startOfDay(new Date()),
+                 $lte: endOfDay(new Date())
+               } 
+             });
+             if(standup){
+                await standup.updateOne({
+                  scrum: userscrum,
+                  features: features.split("\n"),
+                  enhancements: enhancements.split("\n"),
+                  bugs: bugs.split("\n"),
+                  others: others.split("\n")
+              });
+              // await weeklyReports.updateOne({
+              //   content: {
+              //     timeOfCreation: new Date().toISOString(),
+              //     //timeOfCreation: new Date().toDateString(),
+              //     //timeofCreation: new Date().toUTCString(),
+              //     others: others.split("\n"),
+              //     features: features.split("\n"),
+              //     enhancements: enhancements.split("\n"),
+              //     bugs: bugs.split("\n")
+              //   }
+              // });
+              return message.channel.send(
+                "Scrum Updated! :tada:"
+              );
+             }else {
+              newStandup.save();
+              return message.channel.send(
+                "New Scrum added :tada:"
+              );  
+            }              
             } else {
               message.channel.send(
                 "Ruh Roh! You must be a team member in this server standup to reply to the response!"

@@ -8,7 +8,7 @@ const weeklyReportSchema = new Schema({
       timeOfCreation: Date,
       features: [String],
       enhancements: [String],
-      blockers: [String],
+      bugs: [String],
       others: [String]
   },
 });
