@@ -10,10 +10,11 @@ const { Schema, model } = require("mongoose");
  */
 
 const standupSchema = new Schema({
-  member: { type: Schema.ObjectId, ref: 'Members', required: true },
-  reportTime: Date,
-  project: { type: Schema.ObjectId, ref: 'Members', required: true },
+  m_id: String,
+  member: String,
+  project: String,
   scrum: String,
+  reportTime: Date,
   features: [String],
   enhancements: [String],
   blockers: [String],
