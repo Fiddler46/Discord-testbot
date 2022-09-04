@@ -1,12 +1,14 @@
 "use strict"; 
 
+const express = require("express");
+const ISODate = require("isodate");
 require("dotenv").config();
 const fs = require("fs");
 const mongoose = require("mongoose");
 const { Client, MessageEmbed, Collection } = require("discord.js");
 const schedule = require("node-schedule");
 const serverModel = require("./models/servers.model");
-
+const {connectToDB, getDB} = require('./server/db/connection')
 const PREFIX = "!";
 
 const standupIntroMessage = new MessageEmbed()
@@ -79,6 +81,35 @@ bot.on("message", async (message) => {
     message.channel.send(`Error 8008135: Something went wrong!`);
   }
 });
+
+const app = express();
+
+connectToDB((err)=>{
+  if(!err){
+    app.listen(8000, () => {
+      console.log("Listening on PORT 8000..") ; 
+    })
+    db = getDB();
+  }
+})
+
+let db ;
+
+//Weekly Routes
+app.get('/weeklyreports', (req, res) => {
+  let reports = []
+  db.collection('standups')
+    .find({reportTime:{$gte:ISODate("2021-01-01"),$lt:ISODate("2022-09-02")}}) // returns cursor 
+    .forEach(report => {
+      reports.push(report)
+    })
+    .then(() => {
+      res.status(200).json(reports)
+    })
+    .catch(() => {
+      res.status(500).json({"Error": "Could not fetch standups"})
+    })
+})
 
 /**
  * Cron Job: 10:00:00 AM EST - Go through each standup and output the responses to the channel
